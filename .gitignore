@@ -31,7 +31,7 @@ coverage/
 .idea/
 *.swp
 
-# Optional: lockfiles (uncomment if you don't want to track)
+#lockfiles 
 package-lock.json
 yarn.lock
-# pnpm-lock.yaml
+pnpm-lock.yaml
