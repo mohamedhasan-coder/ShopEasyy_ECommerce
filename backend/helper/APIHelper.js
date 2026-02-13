@@ -16,7 +16,6 @@ class APIHelper
         return this;
     }
     filter() {
-        
     }
     pagination() {}
 }
