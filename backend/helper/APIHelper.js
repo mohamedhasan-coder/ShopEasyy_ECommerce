@@ -16,7 +16,7 @@ class APIHelper
         return this;
     }
     filter() {}
-    pagination() { }
+    pagination() {}
 }
 
 export default APIHelper;
