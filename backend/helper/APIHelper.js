@@ -15,7 +15,9 @@ class APIHelper
         this.query = this.query.find({...keyword});
         return this;
     }
-    filter() {}
+    filter() {
+        
+    }
     pagination() {}
 }
 
