@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import HandleError from "../helper/handleError.js"; 
+import { sendToken } from "../helper/jwtToken.js";
 
 export const registerUser = async (req, res, next) => {
     const { name, email, password } = req.body;
@@ -28,9 +29,19 @@ export const registerUser = async (req, res, next) => {
         url: "temp_url",
       },
     });
-    const token = user.getJwtToken();
-    res.status(201).json({
-      success: true,
-      user,
-    });
+    sendToken(user,201,res)
+};
+
+export const loginUser = async (req,res,next) => {
+    const {email, password} = req.body;
+    if(!!email || password)
+    {
+        return next(new HandleError("Email or Password Cannot be Empty", 400));
+    }
+    const user = await User.findOne({email}).select("+password");
+    const isValidPassword = await User.verifyPassword(password);
+    if(!isValidPassword) { 
+       return next(new HandleError("Invalid Email Id or Password", 401)); 
+    }
+    sendToken(user, 200, res);
 };
