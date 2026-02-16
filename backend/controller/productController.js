@@ -21,15 +21,32 @@ export const addProducts = async (req, res) => {
 };
 
 // Get All Products
-export const getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res, next) => {
     // const products = await Product.find()
 
-    const apiHelper = new APIHelper(Product.find(), req.query).search();
+    const resultsPerPage = 4;
+    const apiHelper = new APIHelper(Product.find(), req.query).search().filter();
+    const filteredQuery = apiHelper.query.clone();
+    const productCount = await filteredQuery.countDocuments()
+ 
+    const totalPages = math.ceil(productCount / resultsPerPage);
+    const page = Number(req.query.page) || 1;
+
+    if(totalPages>0 && page > totalPages)
+    {
+      return next(new errorHandler("this page doesn't exist", 404));
+    }
+
+    apiHelper.pagination(resultsPerPage);
 
     const products = await APIHelper.query;
     res.status(200).json({
       success: true,
       products,
+      productCount,
+      resultsPerPage,
+      totalPages,
+      currentpage: page,
     });
 
     res.status(500).json({
@@ -95,4 +112,4 @@ export const deleteProduct = async(req,res,next) => {
         success:true,
         message: "Product Deleted success",
     })
-};
+}; 
