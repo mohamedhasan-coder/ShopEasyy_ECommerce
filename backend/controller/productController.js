@@ -6,6 +6,7 @@ import APIHelper from "../helper/APIHelper.js";
 // Create Product
 export const addProducts = async (req, res) => {
   try {
+    req.body.user = req.user.id;
     const product = await Product.create(req.body);
 
     res.status(201).json({

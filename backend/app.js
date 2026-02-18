@@ -1,8 +1,8 @@
 import express from "express";
 import product from "./routes/productRoute.js";
-import user from "./routes/userRoute.js"
+import user from "./routes/userRoute.js";
 import errorHandler from "./middleware/error.js";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
 
 const app = express();
 

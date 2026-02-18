@@ -8,4 +8,16 @@ export const verifyUser = async(req,res,next) => {
     }
     const decodedData = jwt.verify(token,process.env.JWT_SECERT_KEY);
     req.user = await User.findByID(decodedData.id);
+    next();
+};
+
+// ["Admin", "SuperAdmin"]
+// ["User"]
+export const roleBasedAccess = (...roles) => {
+    return (req,res,next) => {
+        if(!roles.includes(req.user.role)){
+            return next(new HandleError(`role- ${req.user.role} is not allowed to access this resources`, 403));
+        }
+        next();
+    };
 };
