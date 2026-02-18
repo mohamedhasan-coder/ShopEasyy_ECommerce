@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const userSchema = new mongoose.Schema
 (
     {
-        name: {
+        name: {   
             type: String,
             required: [true, "Please Enter Your Name"],
             maxLength: [25, "Invali name. please Enter a name with Fewer than 25 Characters"],
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema
         email: {
             type: String, 
             required: [true, "Please Enter Your Email"],
-            unique: true,
+            unique: true,   
             validate:[validator.isEmail, "Please Enter Valid Email"],
         }, 
         password: {
