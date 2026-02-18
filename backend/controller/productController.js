@@ -2,6 +2,7 @@ import { error } from "console";
 import Product from "../models/productModel.js";
 import errorHandler from "../helper/handleError.js";
 import APIHelper from "../helper/APIHelper.js";
+import HandleError from "../helper/handleError.js";
 
 // Create Product
 export const addProducts = async (req, res) => {
@@ -77,8 +78,7 @@ export const getSingleProduct = async (req, res, Next) => {
   }
 };
 
-// Update Product
- 
+// Update Product 
 export const updateProduct = async(req,res, next) => {
     const id = req.params.id;
     let product = await product.findByIDAndUpdate(id,req,body,{
@@ -99,7 +99,6 @@ export const updateProduct = async(req,res, next) => {
 };
 
 // Delete Product
-
 export const deleteProduct = async(req,res,next) => {
     const id = req.params.id;
     let product = await product.findByIDAndDelete(id);
@@ -114,3 +113,68 @@ export const deleteProduct = async(req,res,next) => {
         message: "Product Deleted success",
     })
 }; 
+
+// Product Review
+export const createProductReview = async(req,res,next) => {
+  const { rating, comment, productId} = req.body;
+  const review = {
+    user:req.user._id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+  };
+  const product = await Product.findById(productId);
+  if(!product)
+  {
+    return next(new HandleError("product not Found", 400));
+  }
+
+  const reviewExists = products.reviews.find((review) => review.user.toString() == req.user.id);
+  if(reviewExists)
+  {
+    // Update Review
+    product.reviews.forEach((review) => {
+      if(review.user.toString() === req.user.id) {
+        review.rating = rating 
+        reviewExists.comment = comment;
+      }
+    });
+  }
+  else
+  {
+    // ADD / Push Review
+    product.reviews.push(review);
+  }
+
+  // Update Review Count 
+  product.numOfReviews = product.reviews.length;
+
+  //update Rating 
+  let sum = 0;
+  product.reviews.forEach((review) => {
+    sum = sum+review.rating;
+  });
+
+  product.ratings = product.reviews.length > 0 ?  sum/product.reviews.length : 0;
+
+  // Save Details
+  await product.save( {validateBeforeSave: false} );
+
+  res.status(200).json({
+    success:true,
+    product,
+  });
+};
+
+// User Review view
+export const viewProductReviews = async (req,res,next) => {
+  const product = await Product.findById(req.query.id);
+  if(!product)
+  {
+    return next(new errorHandler("Product Not Found", 400));
+  }
+  res.status(200).json({
+    success: true,
+    review: product.reviews,
+  });
+};
