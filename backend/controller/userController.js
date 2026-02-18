@@ -57,3 +57,32 @@ export const logout = async (req,res,next) => {
     res.cookies("token", null, options);
     res.status(200).json({success: true, message: "Succesfully Logged out"});
 };
+
+// Reset Password
+export const resetPassword = async (req, res, next) => { 
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new HandleError("User Does Not Exist", 400));
+    }
+
+    const resetToken = user.createPasswordResetToken();
+
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+      resetToken
+    });
+
+  } catch (error) {
+    console.log(error);
+    return next(new HandleError("Could Not Save Reset Token, Try Again Later...", 500));
+  }
+
+  const resetPasswordURL = `${req.protocol}://${req.host}/reset/${resetToken}`;
+
+  const message = `Reset Your Password using the Link Below:\n${resetPasswordURL}\n\nthis link is expire in 30 minutes.\n\n if this wasn't you, please ignore this message`; 
+};
