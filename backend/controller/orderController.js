@@ -1,5 +1,7 @@
-import Order from "../models/orderModel.js"
+import Order from "../models/orderModel.js";
+import errorHandler from "../helper/handleError.js";
 
+// Create New Order
 export const createNewOrder = async(req,res,next) => {
     const {shippingAddress, orderItems, paymentInfo, itemPrice, TaxPrice, shippingPrice,  totalPrice } = req.body;
     const order = await Order.create({
@@ -16,5 +18,69 @@ export const createNewOrder = async(req,res,next) => {
     res.status(201).json({
         success: true,
         order,
+    });
+};
+
+//Get Single Order Details
+export const getOrderDetails = async(req,res,next) => {
+    const order = await Order.findById(req.params.id).populate("user","name email");
+    if(!order)
+    {
+        return next (new errorHandler("Order Not Found",404));
+    }
+    res.status(200).json({
+        success: true,
+        order,
+    });
+};
+
+// Get All Order Details
+export const getAllOrders = async(req,res,next) => {
+    const orders = await Order.find({
+        user: req.user._id
+    });
+    if(!orders)
+    {
+    
+        return next (new errorHandler("Order Not Found",404));
+    }
+    res.status(200).json({
+        success: true,
+        orders,
+    });
+};
+
+// Get All Order Details By Admin 
+export const getAllOrdersByAdmin = async (req,res,next) => {
+    const orders = await Order.find().populate("email", "name email");
+    if(!orders)
+    {
+        return next (new errorHandler("Order Not Found",404));
+    }
+    let totalAmount = 0;
+    orders.forEach((order)=>(totalAmount += order.totalPrice));
+    res.status(200).json({
+        success: true,
+        orders,
+        totalAmount,
+    });
+};
+
+// Admin Delete Orders
+
+export const deleteOrder = async(req,res,next) => {
+    const order = await Order.findById(req.params.id);
+    if(!order)
+    {
+        return next (new errorHandler("Order Not Found",404));
+    }
+    if(order.orderStatus !== 'Delivered')
+    {
+        return next (new errorHandler("this Order Under Processing and Cannot be Deleted", 404));
+    }
+    await Order.deleteOne({_id:req.params.id});
+    res.status(200).json({
+        success: true,
+        message: " Order Deleted Successfully",
     });
 };
