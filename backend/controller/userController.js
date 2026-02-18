@@ -190,3 +190,46 @@ export const updateProfile = async (req, res, next) => {
     return next(new HandleError(error.message, 500));
   }
 };
+
+// Get All Users by admin
+export const getUsers = async (req,res) => {
+  const users = await User.find();
+  res.status(200).json({
+    success: true,
+    users,
+  });
+};
+
+// Get Single Users by Admin
+export const getSingleUser = async(req,res,next) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  if(!user) {
+    return next(new HandleError("User Doesn't Exist: ", 400));
+  }
+};
+
+// Update User Role By admin 
+export const updateUserRole = async(req,res,next) => {
+  const {role} = req.body;
+  const id = req.params.id;
+  const updatedRole = {role};
+  const user = await user.findByIdAndUpdate(id, updatedRole, {new: true});
+  if(!user) {
+    return next(new HandleError("user doesn't exist: ",400));
+  }
+};
+
+// Delete User by Admin 
+export const deleteUser = async (req,res,next) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  if(!user) {
+    return next(new HandleError("user doesn't Exist: ", 400));
+  }
+  await User.findByIdAndDelete(id);
+  res.staus(200).json({
+    success:true,
+    message:"User Details Deleted Successfully"
+  });  
+};
