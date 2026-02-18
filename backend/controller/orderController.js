@@ -1,5 +1,6 @@
 import Order from "../models/orderModel.js";
 import errorHandler from "../helper/handleError.js";
+import Product from "../models/productModel.js";
 
 // Create New Order
 export const createNewOrder = async(req,res,next) => {
@@ -74,7 +75,7 @@ export const deleteOrder = async(req,res,next) => {
     {
         return next (new errorHandler("Order Not Found",404));
     }
-    if(order.orderStatus !== 'Delivered')
+    if(order.orderStatus !== "Delivered")
     {
         return next (new errorHandler("this Order Under Processing and Cannot be Deleted", 404));
     }
@@ -84,3 +85,44 @@ export const deleteOrder = async(req,res,next) => {
         message: " Order Deleted Successfully",
     });
 };
+
+// Admin Order Update
+export const updateOrderStatus = async(req,res,next) => {
+    const id = req.params.id;
+
+    const order = await Order.findById(id)
+    if(!order)
+    {
+        return next (new errorHandler("Order Not Found",404));
+    }
+    if(order.orderStatus === "Delivered")
+    {
+        return next (new errorHandler("this Order is Already Been Delivered", 404));
+    }
+
+    // Update Stock
+
+    await Promise.all(order.orderItems.map((item) => updateQuantity(item.product,item.quantity)));
+    order.orderStatus = req.body.status;
+
+    if(order.orderStatus === "Delivered")
+    {
+        order.deliveredAt = Date.now();
+    }
+    await order.save({validateBeforeSave:false});
+    res.status(200).json({
+        success: true,
+        order,
+    })
+};
+
+async function updateQuantity(id,quantity) {
+    const product = await Product.findById(id);
+
+    if(!product)
+    {
+        throw new Error ("Product Not Found");
+    }
+    product.stock -= quantity;
+    await product.save({validateBeforeSave: false});
+}
