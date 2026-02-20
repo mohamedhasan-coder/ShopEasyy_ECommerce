@@ -1,10 +1,13 @@
 import Navbar from "../components/Navbar";
+import ImageSlider from "../components/ImageSlider";
 
 const Home = () => {
-  return ( <>
-  <Navbar/>
-  <div>Home</div>
-  </>
+  return (
+    <>
+      <Navbar />
+      <ImageSlider />
+      <div>Home</div>
+    </>
   );
 };
 
