@@ -110,18 +110,25 @@ ShopEasyy_ECommerce/
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone the repository
+```
 git clone https://github.com/your-username/shopeasyy-ecommerce.git  
 cd shopeasyy-ecommerce  
+```
 
 ### 2️⃣ Backend setup
+```
 cd backend  
 npm install  
 npm run dev  
+```
 
 ### 3️⃣ Frontend setup
+
+```
 cd frontend  
 npm install  
-npm run dev  
+npm run dev
+```
 
 ---
 
@@ -158,8 +165,8 @@ npm run dev
 
 ## 👨‍💻 Author
 
-**Hasan Techy**  
-🎓 Student | 💻 Full Stack Developer | 🚀 Entrepreneur  
+**Mohamed Hasan M**  
+🎓 Student | 💻 Full Stack Developer
 
 ---
 
@@ -168,7 +175,3 @@ npm run dev
 If you like this project, please ⭐ star the repo and share it with others 🙌
 
 ---
-
-## 📜 License
-
-📄 This project is licensed under the MIT License.
