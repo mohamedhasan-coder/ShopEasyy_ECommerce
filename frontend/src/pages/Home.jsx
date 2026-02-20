@@ -1,14 +1,38 @@
-import Navbar from "../components/Navbar";
-import ImageSlider from "../components/ImageSlider";
-
-const Home = () => {
-  return (
-    <>
-      <Navbar />
-      <ImageSlider />
-      <div>Home</div>
-    </>
-  );
-};
-
-export default Home;
+const products = [
+  {
+    id: 1,
+    title: "Classic White Shirt",
+    description: "Crisp cotton formal shirt",
+    price: 1499,
+    rating: 2,
+    reviews: 5,
+    image: "https://images.unsplash.com/photo-1520974735194-6c3f0c44e7b3",
+  },
+  {
+    id: 2,
+    title: "Slim Fit Blue Jeans",
+    description: "Stretch denim skinny jeans",
+    price: 2199,
+    rating: 4,
+    reviews: 0,
+    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246",
+  },
+  {
+    id: 3,
+    title: "Red High Heel Pumps",
+    description: "Stylish stiletto heels",
+    price: 2999,
+    rating: 5,
+    reviews: 0,
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+  },
+  {
+    id: 4,
+    title: "Leather Tote Bag",
+    description: "Spacious genuine leather handbag",
+    price: 4499,
+    rating: 0,
+    reviews: 0,
+    image: "https://images.unsplash.com/photo-1593032465171-8b9c47c4b5aa",
+  },
+];
