@@ -2,9 +2,17 @@
 
 A modern full-stack e-commerce web application built with the MERN stack. Built to practice real-world features like authentication, cart, checkout, and admin management.
 
+![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ---
 
 ## 🚀 Technology Stack
+
+![React](https://img.shields.io/badge/React-18.x-blue?logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen?logo=mongodb)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-RTK-purple?logo=redux)
+![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey?logo=express)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Utility--First-38bdf8?logo=tailwindcss)
 
 ### 🎨 Frontend
 - ⚛️ React.js  
