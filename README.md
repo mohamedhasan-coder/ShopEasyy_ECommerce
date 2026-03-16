@@ -14,7 +14,7 @@ A modern full-stack e-commerce web application built with the MERN stack. Built 
 ![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey?logo=express)
 ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Utility--First-38bdf8?logo=tailwindcss)
 
-### 🎨 Frontend
+### Frontend
 - ⚛️ React.js  
 - 🧰 Redux Toolkit  
 - 🧭 React Router  
